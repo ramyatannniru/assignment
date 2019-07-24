@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+    <title>Buy Page</title>
+    <script>
+        const buy = () =>{
+            let email = document.getElementById('email').value;
+            let name = document.getElementById('name').value;
+            let b_url = 'http://localhost:1269/cart/buy';
+            fetch(b_url,{
+                method : 'POST',
+                headers : {
+                    'content-type' : 'application/json'
+                },
+                body : JSON.stringify({
+                    name : name,
+                    email : email
+                })
+            })
+        }
+        
+    </script>
+</head>
+<body>
+    Name : <input type="text" id="name"/></br>
+    Email : <input type="email" id="email"/></br>
+    <input type="submit" value="Buy" id="button" onclick="buy()"/></body>
+</body>
+</html>

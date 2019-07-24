@@ -1,0 +1,77 @@
+<html>
+    <title>
+        cart
+    </title>
+    <head>
+        <script type="text/javascript" src="email.service.js"></script>
+        <script type="text/javascript">
+            const cartmanage=()=>{
+                const _url = 'http://localhost:1269/cart';
+            fetch(_url,{})
+            .then(res=>res.json())
+            .then(products=>{
+                createcart(products);
+                total(products);
+                })
+
+            }  
+            const total= (data)=>{
+                let sum=0;
+                data.cartItem.forEach((u) => {
+                    sum= parseInt(sum)+parseInt(u.price);
+                });
+                document.getElementById('total').value =parseInt(sum); 
+            }
+            const createcart= (data)=>{
+                let rows = '';
+                data.cartItem.forEach((u) => {
+                
+                rows += `<tr>
+                            <td>${u.id}</td>
+                            <td>${u.name}</td>
+                            <td>${u.price}</td>
+                            <td><button onclick="add1(${u.price})">+</button>${u.quantity}<button onclick="sub1(${u.price})">-</button></td>
+                            <td></td>
+                        </tr>`
+            });
+            const add1= (data)=>{
+                parseInt(data)+=1;
+                const baseUrl = 'http://localhost:1269/cart';
+                fetch(baseUrl,{
+                    method : 'POST',
+                    headers:{
+                        'content-type': 'application/json'
+                    },
+                    body:JSON.stringify({
+                            quantity:quantity
+                        })
+                })
+            }
+            const _table = `<table>
+                                <tr>
+                                    <th>id</th>
+                                    <th>NAME</th>
+                                    <th>price</th>
+                                    <th>quantity</th>
+                                    <th>total</th>
+                                </tr>
+                                ${rows}
+                            </table>`
+            document.getElementById('cart').innerHTML = _table;
+        } 
+       
+        </script>
+    </head>
+    
+    <body onload="cartmanage()">
+        <a href="product.html"><img src="back.png" width="25px" height="25px"></a>
+        <fieldset >
+                <div id="cart">
+
+                </div>
+                Total cost:<input type="text" id="total" >
+        </fieldset>
+        <a href="buy.html" >checkout</a>
+    </body>
+</html>
+
